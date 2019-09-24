@@ -1,0 +1,47 @@
+{% set name = "omero-marshal" %}
+{% set version = "0.6.1" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}{{ environ.get('VERSION_SUFFIX', '') }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name.replace('-', '_') }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: d72a934716cb19eff6178b3b1312dd36f867dcfc820e78d4d046382385b9f2da
+
+build:
+  noarch: python
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+  script_env:
+    - VERSION_SUFFIX
+
+# TODO: python 3 supports requires relative imports
+requirements:
+  host:
+    - pip
+    - python =2.7
+  run:
+    - python =2.7
+    - omero-py =5.5
+
+test:
+  imports:
+    - omero_marshal
+    - omero_marshal.decode
+    - omero_marshal.decode.decoders
+    - omero_marshal.encode
+    - omero_marshal.encode.encoders
+    - omero_marshal.legacy
+
+about:
+  home: https://www.openmicroscopy.org/
+  license: GNU General Public v2 or later (GPLv2+)
+  license_family: GPL2
+  summary: OMERO Marshal
+  doc_url: https://docs.openmicroscopy.org/latest/omero/developers
+  dev_url: https://github.com/ome/omero-marshal
+
+extra:
+  recipe-maintainers:
+    - ome
