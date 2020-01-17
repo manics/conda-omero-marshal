@@ -1,5 +1,5 @@
 {% set name = "omero-marshal" %}
-{% set version = "0.6.1" %}
+{% set version = "0.7.0" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,10 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name.replace('-', '_') }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: d72a934716cb19eff6178b3b1312dd36f867dcfc820e78d4d046382385b9f2da
-  patches:
-    # imports may fail if this module is the first import
-    - import-order.patch
+  sha256: bf0dd2a6248de688f7eb1b6a078c25b3e12a4cb3c5ae0d5c66dfd6d8b4fad760
 
 build:
   noarch: python
@@ -19,14 +16,13 @@ build:
   script_env:
     - VERSION_SUFFIX
 
-# TODO: python 3 supports requires relative imports
 requirements:
   host:
     - pip
-    - python =2.7
+    - python =3
   run:
-    - python =2.7
-    - omero-py =5.5
+    - python =3
+    - omero-py >=5.6
 
 test:
   imports:
